@@ -27,8 +27,3 @@ class Mastermind:
                     else:
                          output[i] = self.WRONG
           return tuple(output)
-     
-m = Mastermind(4,4,4)
-
-print(m._answer)
-print(m.check_guess((1,2,3,4)))
