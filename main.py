@@ -13,6 +13,7 @@ run = True
 while run:
      screen.fill((0,0,0))
      game_controller.screen.draw()
+     
 
      #event handler
      for event in pygame.event.get():

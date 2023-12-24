@@ -6,7 +6,7 @@ class Mastermind:
      IN = 1
      WRONG = 2
 
-     def __init__(self, slots, options, guesses) -> None:
+     def __init__(self, slots, options, guesses):
           self._slots = slots
           self._options = options
           self._guesses = guesses
@@ -26,4 +26,5 @@ class Mastermind:
                          output[i] = self.IN
                     else:
                          output[i] = self.WRONG
-          return tuple(output)
+
+          return tuple(output), guess
