@@ -1,6 +1,7 @@
 from screen import Screen
 from rect_btn import RectButton
 from text_btn import TextButton
+from circle import Circle
 
 class Board(Screen):
      def __init__(self, mastermind, pygame, screen):
@@ -20,8 +21,17 @@ class Board(Screen):
           enter_btn = TextButton(700, 500, (0,128,128), "Enter", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           enter_btn.onclick = self.enter_onclick
           self.add_button("start", enter_btn)
-          exit_btn = TextButton(0, 0, (0,128,128), "Return", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
+          exit_btn = TextButton(50, 50, (0,128,128), "Return", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           exit_btn.onclick = self.exit_onclick
+
+     ## answer work
+
+     def draw_circles(self, colour_result):
+          for i in range(0,4):
+               x = 25 + 50*i
+               y =  120 + self.counter*(self._btn_height+10)
+               circle = Circle(x, y, colour_result[i], 10)
+               self._item_dict[f"{x}"+f"{y}"] = circle
 
      ## row work
      def make_slot_btns(self, y): # makes the slots in a row
@@ -49,8 +59,9 @@ class Board(Screen):
           else:
                self.disable_row()
                self.make_next_row()
-          game_controller.message("enter")
-     
+               colour_result = self._mastermind.answer_to_colour(self._btn_dict[f"{self.counter}" + f"{k}"] for k in range(self._mastermind._slots))
+               self.draw_circles(colour_result)
+
      def null_onclick(self, game_controller):
           print("Can't click that!")
      

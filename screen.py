@@ -4,10 +4,13 @@ class Screen:
      def __init__(self, screen):
           self._screen = screen
           self._btn_dict = {}
+          self._circle_dict = {}
      
      def draw(self):
                for i in self._btn_dict:
                     self._btn_dict[i].btn_draw(self._screen)
+               for i in self._circle_dict:
+                    self._circle_dict[i].circle_draw(self._screen)
 
      def on_mouse_down(self, pos, game_controller):
           clone_btn_dict = self._btn_dict.copy()

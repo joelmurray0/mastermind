@@ -12,7 +12,7 @@ class GameController:
 
      def message(self, command):
           if command == "start":
-               self._mastermind = Mastermind(self._menu.slots, self._menu.colours, self._menu.guesses)
+               self._mastermind = Mastermind(self._menu.slots, self._menu.colours, self._menu.guesses, self._menu.duplicate_mode)
                self.board = Board(self._mastermind, self._pygame, self._screen)
                self.screen = self.board
           elif command == "exitboard":
