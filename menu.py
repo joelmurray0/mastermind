@@ -17,7 +17,7 @@ class Menu(Screen):
           self.slots = 4
           self.guesses = 10
           self.colours = 4
-          self.duplicate_mode = True
+          self.duplicate_mode = False
 
           start_btn = TextButton(400, 100, (0,128,128), "Start", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           start_btn.onclick = self.start_onclick

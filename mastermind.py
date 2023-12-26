@@ -12,7 +12,7 @@ class Mastermind:
           self._slots = slots
           self._options = options
           self._guesses = guesses
-          self._answer = self._generate_answer()
+          self._answer = self.generate_answer()
           self._duplicate_mode = duplicate_mode
 
           self._answer_dict = {
@@ -21,49 +21,38 @@ class Mastermind:
                self._wrong: (255,0,0)
           }
      
-     def _generate_answer(self):
+     def generate_answer(self):
           return tuple([random.randint(1,self._options) for i in range(self._slots)])
 
      def check_guess(self, guess):
-          if self._duplicate_mode:
-               clone_answer = list(self._answer).copy()
+          comparison = tuple(numpy.subtract(guess, self._answer))
+          comparison_list = []
+          for i in range(self._slots):
+               if comparison[i] == 0:
+                    comparison_list.append(self._correct)
+               else:
+                    comparison_list.append(-1)
 
-               correct_answers = []
-               for i in range(self._slots):
-                    if guess[i] == clone_answer[i]:
-                         correct_answers.append(i)
-               
-               for j in range(len(correct_answers)):
-                    del guess[correct_answers[j]]
-                    del clone_answer[correct_answers[j]]
-               
-               output = []
-               for k in range(self._slots):
-                    if k == correct_answers[k]:
-                         output.append(self._correct)
+          for i in range(self._slots):
+               if comparison_list[i] == -1:
+                    numbers = []
+                    for j in range(self._slots):
+                         if not self._duplicate_mode:
+                              if guess[i] == self._answer[j] and comparison[j] != 0:
+                                   numbers.append(self._answer[j])
+                         else:
+                              if guess[i] == self._answer[j]:
+                                   numbers.append(self._answer[j])
+                    if guess[i] in numbers:
+                         comparison_list[i] = self._in
                     else:
-                         if guess[0] in clone_answer:
-                              output.append(self._in)
-                         else:
-                              output.append(self._wrong)
-          else:
-               guess = tuple(guess)
-               comparison = numpy.subtract(guess, self._answer)
-               output = [self.CORRECT for i in range(self._slots)]
+                         comparison_list[i] = self._wrong
 
-               for i in range(self._slots):
-                    if comparison[i] != self._correct:
-                         if guess[i] in self._answer:
-                              output[i] = self._in
-                         else:
-                              output[i] = self._wrong
-
-          return tuple(output)
+          return tuple(comparison_list)
      
      def answer_to_colour(self, guess):
           output = []
           guess_result = self.check_guess(guess)
           for i in range(self._slots):
                output.append(self._answer_dict[guess_result[i]])
-
           return tuple(output)

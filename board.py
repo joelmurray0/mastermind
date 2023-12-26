@@ -11,7 +11,10 @@ class Board(Screen):
           self._mastermind = mastermind
           self.counter = 0
           self.colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0)]
-          self._colours = self.colours[:self._mastermind._options + 1]
+          self._colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0)][:self._mastermind._options + 1]
+          self._dict_colours = self.make_colour_dict()
+          print(self._dict_colours)
+
 
           self._btn_width = round((400 - 25*(self._mastermind._slots - 1))/self._mastermind._slots)
           self._btn_height = round((400 - 10*(self._mastermind._guesses - 1))/self._mastermind._guesses)
@@ -24,14 +27,20 @@ class Board(Screen):
           exit_btn = TextButton(50, 50, (0,128,128), "Return", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           exit_btn.onclick = self.exit_onclick
 
+     def make_colour_dict(self):
+          output = {}
+          for i in range(1, self._mastermind._options + 2):
+               output[self._colours[i-1]] = i
+          return output
+
      ## answer work
 
      def draw_circles(self, colour_result):
           for i in range(0,4):
-               x = 25 + 50*i
-               y =  120 + self.counter*(self._btn_height+10)
-               circle = Circle(x, y, colour_result[i], 10)
-               self._item_dict[f"{x}"+f"{y}"] = circle
+               x = 20 + 50*i
+               y =  120 + (self.counter-1)*(self._btn_height+10)
+               circle = Circle(x, y, colour_result[i], 8, self._pygame)
+               self._circle_dict[f"{x}"+f"{y}"] = circle
 
      ## row work
      def make_slot_btns(self, y): # makes the slots in a row
@@ -55,12 +64,21 @@ class Board(Screen):
           if self.counter == self._mastermind._guesses:
                print(self._mastermind._answer)
                self.disable_row()
-               self._btn_dict["start"].enter_onclick = self.null_onclick
+               self._btn_dict["start"].onclick = self.null_onclick
           else:
-               self.disable_row()
-               self.make_next_row()
-               colour_result = self._mastermind.answer_to_colour(self._btn_dict[f"{self.counter}" + f"{k}"] for k in range(self._mastermind._slots))
-               self.draw_circles(colour_result)
+               guess = tuple(self._dict_colours[self._btn_dict[f"{self.counter - 1}" + f"{k}"].btn_colour] for k in range(self._mastermind._slots))
+               
+               print(guess)
+               colour_result = self._mastermind.answer_to_colour(guess)
+               self.draw_circles(colour_result)    
+               if colour_result == ((0,255,0),(0,255,0),(0,255,0),(0,255,0)):
+                    self.disable_row()
+                    self._btn_dict["start"].onclick = self.null_onclick
+                    print("WIN")
+               else:
+                    self.disable_row()
+                    self.make_next_row()
+               
 
      def null_onclick(self, game_controller):
           print("Can't click that!")

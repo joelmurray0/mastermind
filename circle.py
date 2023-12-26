@@ -6,4 +6,4 @@ class Circle:
           self._radius = radius
      
      def circle_draw(self, screen):
-          self._pygame.draw.cricle(screen, self._circle_colour, self._centre, self._radius)
+          self._pygame.draw.circle(screen, self._circle_colour, self._centre, self._radius)
