@@ -1,6 +1,6 @@
 from screen import Screen
-from text_btn import TextButton
-from rect_btn import RectButton
+from textBtn import TextButton
+from rectBtn import RectButton
 
 def increment(lower, upper, current):
      output = 0
