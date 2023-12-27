@@ -26,4 +26,4 @@ class Screen:
           self._btn_dict[name] = button
      
      def text_box_update(self, new_message):
-          return InfoPanel(400, 15, 800, 80, new_message, 22, "freesansbold.ttf", self._pygame)
+          return InfoPanel(400, 15, 800, 80, new_message, 22, "arcadeclassic\ARCADECLASSIC.TTF", self._pygame)

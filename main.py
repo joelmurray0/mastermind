@@ -6,15 +6,12 @@ pygame.init()
 screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption('Mastermind')
 
-#game = Game(pygame, screen)
-
 game_controller = GameController(pygame, screen)
 
 run = True
 while run:
      screen.fill((0,0,0))
      game_controller.screen.draw()
-     
 
      #event handler
      for event in pygame.event.get():
