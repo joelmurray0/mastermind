@@ -2,8 +2,6 @@ import numpy
 import random
 
 class Mastermind:
-     
-
      def __init__(self, slots, options, guesses, duplicate_mode):
           self._correct = 0
           self._in = 1

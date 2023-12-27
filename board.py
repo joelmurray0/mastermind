@@ -39,6 +39,30 @@ class Board(Screen):
 
      ## answer work
 
+     def print_answer(self, y):
+          colour_answer = self.answer_to_colour()
+          for j in range(self._mastermind._slots):
+               x = (200+(self._btn_width)/2) + j*(self._btn_width+25)
+
+               btn = RectButton(x, y, self._colours, self._btn_width, self._btn_height, colour_answer[j], self._pygame)
+               btn.onclick = self.null
+               self.add_button(f"{self.counter}"+f"{j}", btn)
+
+     def colour_result_correct_check(self, colour_result):
+          output = True
+          i=0
+          while i != len(colour_result) and output:
+               if colour_result[i] != (0,255,0):
+                    output = False
+               i += 1
+          return output
+
+     def answer_to_colour(self):
+          output = []
+          for i in self._mastermind._answer:
+               output.append(self._colours[i-1])
+          return tuple(output)
+
      def draw_circles(self, colour_result):
           for i in range(self._mastermind._slots):
                _x = 200/(self._mastermind._slots+1)
@@ -72,34 +96,44 @@ class Board(Screen):
           return output
 
      def text_box_update(self, new_message):
-          return InfoPanel(400, 25, 600, 80, new_message, 22, "freesansbold.ttf", self._pygame)
+          return InfoPanel(400, 15, 800, 80, new_message, 22, "freesansbold.ttf", self._pygame)
 
      ## button actions
      def enter_onclick(self, game_controller):
+          if self.check_row_on_guess():
+               guess = tuple(self._dict_colours[self._btn_dict[f"{self.counter - 1}" + f"{k}"].btn_colour] for k in range(self._mastermind._slots))
+               colour_result = self._mastermind.answer_to_colour(guess)
+               self.draw_circles(colour_result)
+          else:
+               self.text_display = self.text_box_update("Please click all buttons.")
+               self._text_dict["terminal"] = self.text_display
+
           if self.counter == self._mastermind._guesses:
-               print(self._mastermind._answer)
+               text_display = self.text_box_update("You lost! The answer is on the lowest row.")
+               self._text_dict["terminal"] = text_display
                self.disable_row()
                self._btn_dict["start"].onclick = self.null_onclick
+               
+               guess = tuple(self._dict_colours[self._btn_dict[f"{self.counter - 1}" + f"{k}"].btn_colour] for k in range(self._mastermind._slots))
+               colour_result = self._mastermind.answer_to_colour(guess)
+               self.draw_circles(colour_result)
+               self.print_answer(120 + self.counter*(self._btn_height+10))   
           else:
-               if self.check_row_on_guess():
-                    guess = tuple(self._dict_colours[self._btn_dict[f"{self.counter - 1}" + f"{k}"].btn_colour] for k in range(self._mastermind._slots))
-                    colour_result = self._mastermind.answer_to_colour(guess)
-                    self.draw_circles(colour_result)    
-                    if colour_result == ((0,255,0),(0,255,0),(0,255,0),(0,255,0)):
-                         self.disable_row()
-                         self._btn_dict["start"].onclick = self.null_onclick
-                         text_display = self.text_box_update("You win!")
-                         self._text_dict["terminal"] = text_display
-                    else:
-                         self.disable_row()
-                         self.make_next_row()
+               if self.colour_result_correct_check(colour_result):
+                    self.disable_row()
+                    self._btn_dict["start"].onclick = self.null_onclick
+                    text_display = self.text_box_update("You win!")
+                    self._text_dict["terminal"] = text_display
                else:
-                    self.text_display = self.text_box_update("Please click all buttons.")
-                    self._text_dict["terminal"] = self.text_display
-
+                    self.disable_row()
+                    self.make_next_row()
+    
      def null_onclick(self, game_controller):
           self.text_display = self.text_box_update("Can't click that!")
           self._text_dict["terminal"] = self.text_display
+
+     def null(self):
+          pass
      
      def exit_onclick(self, game_controller):
           game_controller.message("exitboard")
