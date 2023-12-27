@@ -24,6 +24,10 @@ class Menu(Screen):
           text_display.font_size = 40
           text_display.y = 30
           self._text_dict["terminal"] = text_display
+          self._on_off_dict = {
+               True: "on",
+               False: "off"
+          }
 
           start_btn = TextButton(400, 100, (0,128,128), "Start", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           start_btn.onclick = self.start_onclick
@@ -45,7 +49,7 @@ class Menu(Screen):
           change_guesses_btn.onclick = self.guesses_onclick
           self.add_button("guessup", change_guesses_btn)
 
-          duplicate_mode_btn = TextButton(400,400, (0,128,128), f"Duplicate mode: {self.duplicate_mode}", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
+          duplicate_mode_btn = TextButton(400,400, (0,128,128), f"Duplicate mode: {self._on_off_dict[self.duplicate_mode]}", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self._btn_dict["duplicate"] = duplicate_mode_btn
 
@@ -76,7 +80,7 @@ class Menu(Screen):
           self.guesses = increment(4, 12, self.guesses)
 
      def duplicate_mode_onclick(self, game_controller):
-          duplicate_mode_btn = TextButton(400,400, (0,128,128), f"Duplicate mode: {self.duplicate_mode}", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
+          duplicate_mode_btn = TextButton(400,400, (0,128,128), f"Duplicate mode: {self._on_off_dict[self.duplicate_mode]}", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self._btn_dict["duplicate"] = duplicate_mode_btn
           self.duplicate_mode = not self.duplicate_mode
