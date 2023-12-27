@@ -3,7 +3,8 @@ from gameController import GameController
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((800,600))
+pygame.display.set_caption('Mastermind')
 
 #game = Game(pygame, screen)
 

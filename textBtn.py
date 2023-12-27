@@ -30,3 +30,6 @@ class TextButton(Button):
      def btn_draw(self, screen):
           # draws the rectangle
           screen.blit(self.set_text(), self._rect)
+     
+     def load_btn_onclick(self):
+          return self.text[-1]

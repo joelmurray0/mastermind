@@ -12,6 +12,7 @@ class Mastermind:
           self._guesses = guesses
           self._answer = self.generate_answer()
           self._duplicate_mode = duplicate_mode
+          self.gamestate = {}
 
           self._answer_dict = {
                self._correct: (0,255,0),
@@ -21,6 +22,11 @@ class Mastermind:
      
      def generate_answer(self):
           return tuple([random.randint(1,self._options) for i in range(self._slots)])
+     
+     def save_guess(self,colour_guess, numerical_guess, guess_num):
+          self.gamestate[guess_num] = [colour_guess, self.answer_to_colour(numerical_guess)] # [colour guess, colour answer]
+          print(self.gamestate[guess_num][1])
+          return self.gamestate[guess_num][1]
 
      def check_guess(self, guess):
           comparison = tuple(numpy.subtract(guess, self._answer))

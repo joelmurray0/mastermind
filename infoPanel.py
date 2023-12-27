@@ -4,8 +4,8 @@ import math
 
 class InfoPanel():
      def __init__(self, x, y, width, height, message, font_size, font_type, pygame):
-          self._x = x
-          self._y = y
+          self.x = x
+          self.y = y
           self._width = width
           self._height = height
           self._pygame = pygame
@@ -23,7 +23,7 @@ class InfoPanel():
           self.lines = self.make_text_list()
      
      def find_words_in_line(self, i):
-          index = (i+1)*self.letters_allowed
+          index = (i+1)*self.letters_allowed - 1
           new_index = index
           if self.message[index] == " ":
                output = self.message[(i)*self.letters_allowed:index] 
@@ -45,6 +45,6 @@ class InfoPanel():
      def text_draw(self, screen):
           self.rect_height = self._height/len(self.lines)
           for i in range(len(self.lines)):
-               text = TextButton(self._x, self._y + i*self.rect_height, (0,0,0), self.lines[i], self._font_type, self.font_size, (255,255,255), self._pygame)
+               text = TextButton(self.x, self.y + i*self.rect_height, (0,0,0), self.lines[i], self._font_type, self.font_size, (255,255,255), self._pygame)
                text.onclick = self.null
                text.btn_draw(screen)
