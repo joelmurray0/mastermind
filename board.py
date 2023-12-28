@@ -149,6 +149,7 @@ class Board(Screen):
                          self.disable_current_row()
                          self.counter += 1
                          self._btn_dict["start"].onclick = self.null_onclick
+                         self._btn_dict["save"].onclick = self.null_saveclick
                          self.print_answer(120 + (self.counter)*(self._btn_height+10), self.number_to_colour())
                     else:
                          self.text_display.update_message(40,"win")
