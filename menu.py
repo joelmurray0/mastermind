@@ -64,8 +64,8 @@ class Menu(Screen):
           change_slots_btn.onclick = self.slots_onclick
           change_slots_btn.change_onhover("-", "+")
           self.add_button("slotup", change_slots_btn)
-          if self.slots > self.colours:
-               self.colours = self.slots
+          if self.slots >= self.colours:
+               self.colours = self.slots + 1
                change_colours_btn = TextButton(400,300, (0,0,0), f"colours  {self.colours}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
                change_colours_btn.onclick = self.colours_onclick
                change_colours_btn.change_onhover("-", "+")
