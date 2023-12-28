@@ -8,6 +8,9 @@ class RectButton(Button):
           self._btn_width = btn_width
           self._btn_height = btn_height
           self._rect = self.make_rect()
+
+     def onhover(self):
+          return [0]
      
      def make_rect(self):
           return Rect(self._center[0] - 0.5*self._btn_width, self._center[1] - 0.5*self._btn_height, self._btn_width, self._btn_height)

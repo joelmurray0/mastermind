@@ -20,8 +20,7 @@ class Menu(Screen):
           self.duplicate_mode = False
 
           text = "Mastermind"
-          text_display = self.text_box_update(text)
-          text_display.font_size = 40
+          text_display = self.text_box_write(40, text)
           text_display.y = 30
           self._text_dict["terminal"] = text_display
           self._on_off_dict = {
@@ -52,10 +51,6 @@ class Menu(Screen):
           duplicate_mode_btn = TextButton(400,400, (0,0,0), f"Duplicate mode  {self._on_off_dict[self.duplicate_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self._btn_dict["duplicate"] = duplicate_mode_btn
-
-          #rules_btn = TextButton(400,400, (0,128,128), f"Rules", 'freesansbold.ttf', 32, (255,255,255), self._pygame)
-          #rules_btn.onclick = self.rules_onclick
-          #self._btn_dict["rules"] = rules_btn
           
 
      def start_onclick(self, game_controller):
@@ -84,9 +79,6 @@ class Menu(Screen):
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self._btn_dict["duplicate"] = duplicate_mode_btn
           self.duplicate_mode = not self.duplicate_mode
-
-     #def rules_onclick(self, game_controller):
-          #game_controller.message("rules")
 
      def load_onclick(self, game_controller):
           game_controller.message("restore")

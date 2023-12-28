@@ -13,7 +13,7 @@ class InfoPanel():
           self.update_message(font_size, message)
 
      def null(self):
-          pass
+          return [0]
 
      def update_message(self, new_font_size, new_message):
           self.font_size = new_font_size
@@ -46,5 +46,6 @@ class InfoPanel():
           self.rect_height = self._height/len(self.lines)
           for i in range(len(self.lines)):
                text = TextButton(self.x, self.y + i*self.rect_height, (0,0,0), self.lines[i], self._font_type, self.font_size, (255,255,255), self._pygame)
-               text.onclick = self.null
+               text.onclick = text.null
+               text.onhover = self.null
                text.btn_draw(screen)
