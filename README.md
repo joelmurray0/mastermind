@@ -1,5 +1,12 @@
 # mastermind
 Mastermind project
+
+# How to run
+- download as zip
+- extract files
+- install dependencies
+- run main.py
+
 ## Game abilities
 Finished game meeting basic requirements.
 - Use Pygame for your GUI
