@@ -7,5 +7,5 @@ class Button:
      def onclick(self, game_controller):
           print("Loading...")
      
-     def null(self):
+     def null(self, game_controller):
           pass
