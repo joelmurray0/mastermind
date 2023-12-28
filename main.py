@@ -21,6 +21,7 @@ while run:
           #click checker
           if event.type == pygame.MOUSEBUTTONDOWN:
                game_controller.screen.on_mouse_down(pygame.mouse.get_pos(), game_controller)
+          #hover check
           else:
                game_controller.screen.on_mouse_up(pygame.mouse.get_pos())
 

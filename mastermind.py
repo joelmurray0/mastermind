@@ -25,7 +25,6 @@ class Mastermind:
      
      def save_guess(self,colour_guess, numerical_guess, guess_num):
           self.gamestate[guess_num] = [colour_guess, self.answer_to_colour(numerical_guess)] # [colour guess, colour answer]
-          print(self.gamestate[guess_num][1])
           return self.gamestate[guess_num][1]
 
      def check_guess(self, guess):

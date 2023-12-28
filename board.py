@@ -11,8 +11,8 @@ class Board(Screen):
           self._pygame = pygame
           self._mastermind = mastermind
           self.counter = 0
-          self.colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0)]
-          self._colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0)][:self._mastermind._options]
+          self.colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0), (0,255,255), (255,0,255), (128,128,255), (128,255,128), (255,255,128), (255,0,128)]
+          self._colours = self.colours[:self._mastermind._options]
           self._dict_colours = self.make_colour_dict()
           self.filename = "save.txt"
 
@@ -38,8 +38,6 @@ class Board(Screen):
           save_btn.onclick = self.save_onclick
           self.add_button("save", save_btn)
 
-          
-
      def colour_to_number(self, colour):
           output = []
           for i in colour:
@@ -50,7 +48,6 @@ class Board(Screen):
           for i in range(len(self._mastermind.gamestate)):
                guess, colour_response = self._mastermind.gamestate[i]
                y = 120 + i*(self._btn_height+10)
-               print(guess)
                self.print_answer(y, guess)
                self.draw_circles(y, colour_response)
                self.counter += 1
@@ -80,7 +77,7 @@ class Board(Screen):
           return output
      
      # turns mastermind response to a tuple of rgb values
-     def answer_to_colour(self):
+     def number_to_colour(self):
           output = []
           for i in self._mastermind._answer:
                output.append(self._colours[i-1])
@@ -152,7 +149,7 @@ class Board(Screen):
                          self.disable_current_row()
                          self.counter += 1
                          self._btn_dict["start"].onclick = self.null_onclick
-                         self.print_answer(120 + (self.counter)*(self._btn_height+10), self.answer_to_colour())
+                         self.print_answer(120 + (self.counter)*(self._btn_height+10), self.number_to_colour())
                     else:
                          self.text_display.update_message(40,"win")
                          self._text_dict["terminal"] = self.text_display

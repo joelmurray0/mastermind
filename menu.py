@@ -15,8 +15,8 @@ class Menu(Screen):
           super().__init__(screen)
           self._pygame = pygame
           self.slots = 4
-          self.guesses = 10
-          self.colours = 4
+          self.guesses = 6
+          self.colours = self.slots + 1
           self.duplicate_mode = False
 
           text = "Mastermind"
@@ -38,46 +38,59 @@ class Menu(Screen):
 
           change_slots_btn = TextButton(400,250, (0,0,0), f"slots  {self.slots}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           change_slots_btn.onclick = self.slots_onclick
+          change_slots_btn.change_onhover("-", "+")
           self.add_button("slotup", change_slots_btn)
           
           change_colours_btn = TextButton(400,300, (0,0,0), f"colours  {self.colours}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           change_colours_btn.onclick = self.colours_onclick
+          change_colours_btn.change_onhover("-", "+")
           self.add_button("colourup", change_colours_btn)
 
           change_guesses_btn = TextButton(400,350, (0,0,0), f"guesses  {self.guesses}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           change_guesses_btn.onclick = self.guesses_onclick
+          change_guesses_btn.change_onhover("-", "+")
           self.add_button("guessup", change_guesses_btn)
 
           duplicate_mode_btn = TextButton(400,400, (0,0,0), f"Duplicate mode  {self._on_off_dict[self.duplicate_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
-          self._btn_dict["duplicate"] = duplicate_mode_btn
-          
+          self.add_button("duplicate", duplicate_mode_btn) 
 
      def start_onclick(self, game_controller):
           game_controller.message("start")
 
      def slots_onclick(self, game_controller):
-          change_slots_btn = TextButton(400, 250, (0,0,0), f"slots  {increment(4, 6, self.slots)}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
-          change_slots_btn.onclick = self.slots_onclick
-          self._btn_dict["slotup"] = change_slots_btn
           self.slots = increment(4, 6, self.slots)
+          change_slots_btn = TextButton(400, 250, (0,0,0), f"slots  {self.slots}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+          change_slots_btn.onclick = self.slots_onclick
+          change_slots_btn.change_onhover("-", "+")
+          self.add_button("slotup", change_slots_btn)
+          if self.slots > self.colours:
+               self.colours = self.slots
+               change_colours_btn = TextButton(400,300, (0,0,0), f"colours  {self.colours}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+               change_colours_btn.onclick = self.colours_onclick
+               change_colours_btn.change_onhover("-", "+")
+               self.add_button("colourup", change_colours_btn)
 
-     def colours_onclick(self, game_controller):
-          change_colours_btn = TextButton(400,300, (0,0,0), f"colours  {increment(4, 6, self.colours)}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+     def colours_onclick(self,game_controller):
+          self.colours = increment(self.slots + 1, 12, self.colours)
+          change_colours_btn = TextButton(400,300, (0,0,0), f"colours  {self.colours}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           change_colours_btn.onclick = self.colours_onclick
-          self._btn_dict["colourup"] = change_colours_btn
-          self.colours = increment(4, 6, self.colours)
+          change_colours_btn.change_onhover("-", "+")
+          self.add_button("colourup", change_colours_btn)
+          
 
      def guesses_onclick(self, game_controller):
-          change_guesses_btn = TextButton(400,350, (0,0,0), f"guesses  {increment(4, 12, self.guesses)}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+          self.guesses = increment(4, 8, self.guesses)
+          change_guesses_btn = TextButton(400,350, (0,0,0), f"guesses  {self.guesses}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           change_guesses_btn.onclick = self.guesses_onclick
-          self._btn_dict["guessup"] = change_guesses_btn
-          self.guesses = increment(4, 12, self.guesses)
+          change_guesses_btn.change_onhover("-", "+")
+          self.add_button("guessup", change_guesses_btn)
+          
 
      def duplicate_mode_onclick(self, game_controller):
           duplicate_mode_btn = TextButton(400,400, (0,0,0), f"Duplicate mode  {self._on_off_dict[self.duplicate_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
-          self._btn_dict["duplicate"] = duplicate_mode_btn
+          self.add_button("duplicate", duplicate_mode_btn) 
           self.duplicate_mode = not self.duplicate_mode
 
      def load_onclick(self, game_controller):

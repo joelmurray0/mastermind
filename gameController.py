@@ -1,17 +1,14 @@
 from menu import Menu
 from board import Board
-from rules import Rules
 from load import Load
 from mastermind import Mastermind
-import pickle
 
 class GameController:
      def __init__(self,pygame, screen):
           self._pygame = pygame
           self._screen = screen
           self._menu = Menu(pygame, screen)
-          self._load = Load(pygame, screen)
-          #self._rules = Rules(pygame, screen)
+          self._load = Load("save.txt")
           self.screen = self._menu
 
      def message(self, command):
@@ -24,6 +21,6 @@ class GameController:
           elif command == "rules":
                self.screen = self._rules
           elif command == "restore":
-               self._mastermind = pickle.load(open("save.txt", "rb"))
+               self._mastermind = self._load.load_onclick()
                self.board = Board(self._mastermind, self._pygame, self._screen)
                self.screen = self.board

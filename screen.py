@@ -33,8 +33,8 @@ class Screen:
                if clone_btn_dict[i]._rect.collidepoint(pos):
                     chr = clone_btn_dict[i].onhover()
                     if len(chr) == 2:
-                         self._arrows_dict[">"] = chr[0]
-                         self._arrows_dict["<"] = chr[1]
+                         self._arrows_dict["left"] = chr[0]
+                         self._arrows_dict["right"] = chr[1]
 
      def add_button(self, name, button):
           self._btn_dict[name] = button

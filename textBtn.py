@@ -9,6 +9,8 @@ class TextButton(Button):
           self._font_colour = font_colour
           self._font = self.text_init()
           self._rect = self.make_rect()
+          self.text1 = ">"
+          self.text2 = "<"
 
      ## button making
      def text_init(self):
@@ -32,12 +34,15 @@ class TextButton(Button):
           screen.blit(self.set_text(), self._rect)
      
      def onhover(self):
-          left_chr = TextButton(self._center[0] - self._rect.width/2 - 20, self._center[1],(0,0,0), ">", "kongtext\kongtext.ttf", self._font_size, (255,255,255), self._pygame)
+          left_chr = TextButton(self._center[0] - self._rect.width/2 - 20, self._center[1],(0,0,0), self.text1, "kongtext\kongtext.ttf", self._font_size, (255,255,255), self._pygame)
           left_chr.onlick = self.null
-          right_chr = TextButton(self._center[0] + self._rect.width/2 + 20, self._center[1],(0,0,0), "<", "kongtext\kongtext.ttf", self._font_size, (255,255,255), self._pygame)
+          right_chr = TextButton(self._center[0] + self._rect.width/2 + 20, self._center[1],(0,0,0), self.text2, "kongtext\kongtext.ttf", self._font_size, (255,255,255), self._pygame)
           right_chr.onlick = self.null
           return [left_chr, right_chr]
-          
+     
+     def change_onhover(self, text1, text2):
+          self.text1 = text1
+          self.text2 = text2
 
      def load_btn_onclick(self):
           return self.text[-1]
