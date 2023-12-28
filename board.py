@@ -148,7 +148,7 @@ class Board(Screen):
                     if not self.colour_result_correct_check(colour_result):
                          self.text_display.update_message(40, "lose")
                          self.text_display.y = 30
-                         self._text_dict["terminal"] = text_display
+                         self._text_dict["terminal"] = self.text_display
                          self.disable_current_row()
                          self.counter += 1
                          self._btn_dict["start"].onclick = self.null_onclick
