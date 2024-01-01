@@ -11,8 +11,9 @@ class Board(Screen):
           self._pygame = pygame
           self._mastermind = mastermind
           self.counter = 0
-          self.colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0), (0,255,255), (255,0,255), (128,128,255), (128,255,128), (255,255,128), (255,0,128)]
-          self._colours = self.colours[:self._mastermind._options]
+          self.guess_colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0), (0,255,255), (255,0,255), (128,128,255), (128,255,128), (255,255,128), (255,0,128)]
+          self._guess_colours = self.guess_colours[:self._mastermind._options]
+          self._answer_colours = [(0,255,0),(255,128,0),(255,0,0)]
           self._dict_colours = self.make_colour_dict()
           self.filename = "save.txt"
 
@@ -38,31 +39,39 @@ class Board(Screen):
           save_btn.onclick = self.save_onclick
           self.add_button("save", save_btn)
 
+     ## converters
      def colour_to_number(self, colour):
           output = []
           for i in colour:
                output.append(self._dict_colours[i])
+          return tuple(output)
+     
+     # turns mastermind response of tuple to a tuple of rgb values
+     def number_to_colour(self, nums, colour_list):
+          output = []
+          for i in nums:
+               output.append(colour_list[i-1])
           return tuple(output)
 
      def write_past(self):
           for i in range(len(self._mastermind.gamestate)):
                guess, colour_response = self._mastermind.gamestate[i]
                y = 120 + i*(self._btn_height+10)
-               self.print_answer(y, guess)
-               self.draw_circles(y, colour_response)
+               self.print_answer(y, self.number_to_colour(guess, self._guess_colours))
+               self.draw_circles(y, self.number_to_colour(colour_response, self._answer_colours))
                self.counter += 1
 
      def make_colour_dict(self):
           output = {}
           for i in range(1, self._mastermind._options + 1):
-               output[self._colours[i-1]] = i
+               output[self._guess_colours[i-1]] = i
           return output
 
      ## answer work
      def print_answer(self, y, colour_answer):
           for j in range(self._mastermind._slots):
                x = (200+(self._btn_width)/2) + j*(self._btn_width+25)
-               btn = RectButton(x, y, self._colours, self._btn_width, self._btn_height, colour_answer[j], self._pygame)
+               btn = RectButton(x, y, self._guess_colours, self._btn_width, self._btn_height, colour_answer[j], self._pygame)
                btn.onclick = btn.null
                self.add_button(f"{self.counter}"+f"{j}", btn)
 
@@ -76,13 +85,6 @@ class Board(Screen):
                i += 1
           return output
      
-     # turns mastermind response to a tuple of rgb values
-     def number_to_colour(self):
-          output = []
-          for i in self._mastermind._answer:
-               output.append(self._colours[i-1])
-          return tuple(output)
-
      # draws coloured circles at a given y value according to a tuple of rgb values
      def draw_circles(self, y, colour_result):
           for i in range(self._mastermind._slots):
@@ -96,7 +98,7 @@ class Board(Screen):
           for j in range(self._mastermind._slots):
                x = (200+(self._btn_width)/2) + j*(self._btn_width+25)
 
-               btn = RectButton(x, y, self._colours, self._btn_width, self._btn_height, (128, 128, 128), self._pygame)
+               btn = RectButton(x, y, self._guess_colours, self._btn_width, self._btn_height, (128, 128, 128), self._pygame)
                btn.onclick = btn.colour_shift
                self.add_button(f"{self.counter}"+f"{j}", btn)
      
@@ -124,7 +126,8 @@ class Board(Screen):
                if self.counter != self._mastermind._guesses - 1:
                     colour_guess = tuple(self._btn_dict[f"{self.counter}" + f"{k}"].btn_colour for k in range(self._mastermind._slots))
                     numerical_guess = self.colour_to_number(colour_guess)
-                    colour_result = self._mastermind.save_guess(colour_guess, numerical_guess, self.counter)
+                    numerical_result = self._mastermind.save_guess(numerical_guess, self.counter)
+                    colour_result = self.number_to_colour(numerical_result, self._answer_colours)
                     self.draw_circles(120 + (self.counter)*(self._btn_height+10), colour_result)
                     if self.colour_result_correct_check(colour_result):
                          self.text_display.update_message(40,"win")
@@ -140,7 +143,8 @@ class Board(Screen):
                else:
                     colour_guess = tuple(self._btn_dict[f"{self.counter}" + f"{k}"].btn_colour for k in range(self._mastermind._slots))
                     numerical_guess = self.colour_to_number(colour_guess)
-                    colour_result = self._mastermind.save_guess(colour_guess, numerical_guess, self.counter)
+                    numerical_result = self._mastermind.save_guess(numerical_guess, self.counter)
+                    colour_result = self.number_to_colour(numerical_result, self._answer_colours)
                     self.draw_circles(120 + (self.counter)*(self._btn_height+10), colour_result)
                     if not self.colour_result_correct_check(colour_result):
                          self.text_display.update_message(40, "lose")
@@ -150,7 +154,7 @@ class Board(Screen):
                          self.counter += 1
                          self._btn_dict["start"].onclick = self.null_onclick
                          self._btn_dict["save"].onclick = self.null_saveclick
-                         self.print_answer(120 + (self.counter)*(self._btn_height+10), self.number_to_colour())
+                         self.print_answer(120 + (self.counter)*(self._btn_height+10), self.number_to_colour(self._mastermind._answer, self._guess_colours))
                     else:
                          self.text_display.update_message(40,"win")
                          self._text_dict["terminal"] = self.text_display
