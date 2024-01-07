@@ -4,7 +4,7 @@ Mastermind project
 # How to run
 - download as zip
 - extract files
-- install dependencies
+- install dependencies (numpy and pygame)
 - run main.py
 
 ## Game abilities
