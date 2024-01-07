@@ -3,9 +3,9 @@ import random
 
 class Mastermind:
      def __init__(self, slots, options, guesses, duplicate_mode):
-          self._correct = 0
-          self._in = 1
-          self._wrong = 2
+          self._correct = 1
+          self._in = 2
+          self._wrong = 3
 
           self._slots = slots
           self._options = options
