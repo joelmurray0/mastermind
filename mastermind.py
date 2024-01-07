@@ -2,7 +2,7 @@ import numpy
 import random
 
 class Mastermind:
-     def __init__(self, slots, options, guesses, duplicate_mode):
+     def __init__(self, slots, options, guesses, duplicate_mode, hard_mode):
           self._correct = 1
           self._in = 2
           self._wrong = 3
@@ -13,6 +13,7 @@ class Mastermind:
           self._answer = self.generate_answer()
           self._duplicate_mode = duplicate_mode
           self.gamestate = {}
+          self._hard_mode = hard_mode
      
      def generate_answer(self):
           return tuple([random.randint(1,self._options) for _ in range(self._slots)])
@@ -44,5 +45,7 @@ class Mastermind:
                          comparison_list[i] = self._in
                     else:
                          comparison_list[i] = self._wrong
+          if self._hard_mode:
+               comparison_list.sort()
 
           return tuple(comparison_list)

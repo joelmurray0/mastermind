@@ -18,6 +18,7 @@ class Menu(Screen):
           self.guesses = 6
           self.colours = self.slots + 1
           self.duplicate_mode = False
+          self.hard_mode = False
 
           text = "Mastermind"
           text_display = self.text_box_write(40, text)
@@ -55,6 +56,10 @@ class Menu(Screen):
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self.add_button("duplicate", duplicate_mode_btn) 
 
+          hard_mode_btn = TextButton(400,450, (0,0,0), f"Hard mode  {self._on_off_dict[self.hard_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+          hard_mode_btn.onclick = self.hard_mode_onclick
+          self.add_button("hard", hard_mode_btn)
+
      def start_onclick(self, game_controller):
           game_controller.message("start")
 
@@ -88,10 +93,16 @@ class Menu(Screen):
           
 
      def duplicate_mode_onclick(self, game_controller):
+          self.duplicate_mode = not self.duplicate_mode
           duplicate_mode_btn = TextButton(400,400, (0,0,0), f"Duplicate mode  {self._on_off_dict[self.duplicate_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
           duplicate_mode_btn.onclick = self.duplicate_mode_onclick
           self.add_button("duplicate", duplicate_mode_btn) 
-          self.duplicate_mode = not self.duplicate_mode
-
+          
+     def hard_mode_onclick(self, game_controller):
+          self.hard_mode = not self.hard_mode
+          hard_mode_btn = TextButton(400,450, (0,0,0), f"Hard mode  {self._on_off_dict[self.hard_mode]}", "arcadeclassic\ARCADECLASSIC.TTF", 32, (255,255,255), self._pygame)
+          hard_mode_btn.onclick = self.hard_mode_onclick
+          self.add_button("hard", hard_mode_btn) 
+          
      def load_onclick(self, game_controller):
           game_controller.message("restore")
