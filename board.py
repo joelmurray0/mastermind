@@ -11,7 +11,7 @@ class Board(Screen):
           self._pygame = pygame
           self._mastermind = mastermind
           self.counter = 0
-          self.guess_colours = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (128,0,255), (255,128,0), (0,255,255), (255,0,255), (128,128,255), (128,255,128), (255,255,128), (255,0,128)]
+          self.guess_colours = [(47, 79, 79), (139, 69, 19), (0, 128, 0), (0, 0, 139), (255, 0, 0), (255, 215, 0), (0, 255, 255), (255,0,255), (128,128,255), (30, 144, 255), (255, 105, 180), (255, 228, 196)]
           self._guess_colours = self.guess_colours[:self._mastermind._options]
           self._answer_colours = [(0,255,0),(255,128,0),(255,0,0)]
           self._dict_colours = self.make_colour_dict()
